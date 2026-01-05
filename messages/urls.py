@@ -1,29 +1,9 @@
-"""
-URL configuration for messages app.
-"""
-
 from django.urls import path
-from .views import (
-    ConversationListCreateView,
-    ConversationDetailView,
-    MessageListCreateView,
-    MarkAsReadView,
-    UnreadCountView,
-    DeleteConversationView,
-)
-
-app_name = 'messages'
+from . import views
 
 urlpatterns = [
-    # Conversations
-    path('conversations/', ConversationListCreateView.as_view(), name='conversation_list_create'),
-    path('conversations/<int:pk>/', ConversationDetailView.as_view(), name='conversation_detail'),
-    path('conversations/<int:pk>/delete/', DeleteConversationView.as_view(), name='conversation_delete'),
-    
-    # Messages
-    path('conversations/<int:conversation_id>/messages/', MessageListCreateView.as_view(), name='message_list_create'),
-    path('conversations/<int:conversation_id>/mark-read/', MarkAsReadView.as_view(), name='mark_as_read'),
-    
-    # Unread count
-    path('unread-count/', UnreadCountView.as_view(), name='unread_count'),
+    path('conversations/', views.ConversationListView.as_view(), name='conversation-list'),
+    path('conversations/create/', views.CreateConversationView.as_view(), name='conversation-create'),
+    path('conversations/<int:pk>/', views.ConversationDetailView.as_view(), name='conversation-detail'),
+    path('conversations/<int:pk>/send/', views.SendMessageView.as_view(), name='send-message'),
 ]
